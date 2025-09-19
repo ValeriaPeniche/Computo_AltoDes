@@ -12,6 +12,7 @@
 
 #### Septiembre 2025
 - **03/09/2025**: Tarea #993 - Presentación herramienta HPC
+- **18/09/2025**: Tarea #997 - Cluster Galera con MariaDB
 
 ## Descripción
 
@@ -27,3 +28,5 @@ Ejercicio práctico usando Docker Compose para desplegar una aplicación Flask c
 ### Tarea #993 - Herramienta HPC
 Presentación y demo en clase de una herramienta de High Performance Computing seleccionada del repositorio Awesome HPC.
 
+### Tarea #997 - Cluster Galera con MariaDB
+Implementación de un cluster de bases de datos MariaDB utilizando Galera Cluster para alta disponibilidad y replicación síncrona multi-maestro en entorno Linux. La configuración incluye la instalación, configuración y verificación de la replicación entre nodos del cluster.
