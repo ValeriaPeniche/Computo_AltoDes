@@ -1,0 +1,58 @@
+name: Deploy Elasticsearch Visualization to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Permite ejecución manual
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write # Permite que la action de despliegue funcione
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: github-pages # Usa el ambiente de Pages para el despliegue
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies (Elasticsearch, Pandas, Matplotlib)
+      run: |
+        python -m pip install --upgrade pip
+        pip install elasticsearch pandas matplotlib seaborn
+        
+    - name: Run Scripts and Generate Visualizations
+      env:
+        # Pasa los Secrets de GitHub al ambiente de ejecución de Python
+        ELASTICSEARCH_CLOUD_ID: ${{ secrets.ELASTICSEARCH_CLOUD_ID }}
+        ELASTICSEARCH_USERNAME: ${{ secrets.ELASTICSEARCH_USERNAME }}
+        ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
+      run: |
+        # Entra a la carpeta del proyecto
+        cd Elasticsearch-Movies
+        # 1. Carga los datos a Elasticsearch Cloud
+        python scripts/elasticsearch_loader.py
+        # 2. Consulta los datos y genera los gráficos PNG
+        python scripts/generate_visualizations.py
+        
+    # --- Pasos de Despliegue a GitHub Pages ---
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+      
+    - name: Upload artifact (la carpeta 'docs')
+      uses: actions/upload-pages-artifact@v2
+      with:
+        # La carpeta docs/ contiene el index.html y las imágenes generadas
+        path: './Elasticsearch-Movies/docs'
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2

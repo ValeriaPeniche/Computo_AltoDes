@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Elasticsearch & GitHub Pages (Tarea #989)</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <header>
+        <h1>Proyecto Fénix - Tarea #989</h1>
+        <p>Visualización de Datos de Películas Obtenidos de Elasticsearch Cloud</p>
+    </header>
+    
+    <main>
+        <h2>📊 Análisis de Dataset</h2>
+        <p class="description">Estas gráficas se generan automáticamente en cada push a 'main' mediante GitHub Actions. Los datos son consultados en tiempo real desde nuestro índice de **Elasticsearch Cloud**.</p>
+        
+        <section class="chart-container">
+            <h3>1. Distribución de Ratings (IMDb)</h3>
+            <img src="assets/rating_distribution.png" alt="Gráfico de distribución de ratings de películas" class="chart">
+        </section>
+        
+        <section class="chart-container">
+            <h3>2. Conteo de Películas por Género</h3>
+            <img src="assets/genre_count.png" alt="Gráfico de conteo por género de películas" class="chart">
+        </section>
+    </main>
+    
+    <footer>
+        <p>Desplegado usando Python (Pandas/Matplotlib), Elasticsearch y GitHub Actions.</p>
+    </footer>
+</body>
+</html>

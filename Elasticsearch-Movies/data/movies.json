@@ -1,0 +1,74 @@
+[
+  {
+    "title": "The Shawshank Redemption",
+    "genre": ["Drama"],
+    "year": 1994,
+    "duration": 142,
+    "rating": 9.3,
+    "director": "Frank Darabont",
+    "actors": ["Tim Robbins", "Morgan Freeman"]
+  },
+  {
+    "title": "The Godfather",
+    "genre": ["Crime", "Drama"],
+    "year": 1972,
+    "duration": 175,
+    "rating": 9.2,
+    "director": "Francis Ford Coppola",
+    "actors": ["Marlon Brando", "Al Pacino"]
+  },
+  {
+    "title": "The Dark Knight",
+    "genre": ["Action", "Crime", "Drama"],
+    "year": 2008,
+    "duration": 152,
+    "rating": 9.0,
+    "director": "Christopher Nolan",
+    "actors": ["Christian Bale", "Heath Ledger"]
+  },
+  {
+    "title": "Pulp Fiction",
+    "genre": ["Crime", "Drama"],
+    "year": 1994,
+    "duration": 154,
+    "rating": 8.9,
+    "director": "Quentin Tarantino",
+    "actors": ["John Travolta", "Uma Thurman"]
+  },
+  {
+    "title": "Forrest Gump",
+    "genre": ["Drama", "Romance"],
+    "year": 1994,
+    "duration": 142,
+    "rating": 8.8,
+    "director": "Robert Zemeckis",
+    "actors": ["Tom Hanks", "Robin Wright"]
+  },
+  {
+    "title": "Inception",
+    "genre": ["Action", "Adventure", "Sci-Fi"],
+    "year": 2010,
+    "duration": 148,
+    "rating": 8.8,
+    "director": "Christopher Nolan",
+    "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt"]
+  },
+  {
+    "title": "The Matrix",
+    "genre": ["Action", "Sci-Fi"],
+    "year": 1999,
+    "duration": 136,
+    "rating": 8.7,
+    "director": "Lana Wachowski",
+    "actors": ["Keanu Reeves", "Laurence Fishburne"]
+  },
+  {
+    "title": "Goodfellas",
+    "genre": ["Biography", "Crime", "Drama"],
+    "year": 1990,
+    "duration": 146,
+    "rating": 8.7,
+    "director": "Martin Scorsese",
+    "actors": ["Robert De Niro", "Ray Liotta"]
+  }
+]
