@@ -16,7 +16,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def generate_visualizations():
     """Consulta datos de ES y genera gráficos PNG."""
-    print("🎨 Generando visualizaciones...")
+    print("Generando visualizaciones...")
 
     # Obtener datos desde Elasticsearch
     df = query_elasticsearch.get_elasticsearch_data()
@@ -30,7 +30,7 @@ def generate_visualizations():
 
     # Fallback: si no hay datos, usar ejemplo
     if df is None or df.empty or len(df) < 2:
-        print("⚠️ DataFrame vacío o insuficiente. Usando datos de ejemplo para generar gráficos.")
+        print("DataFrame vacío o insuficiente. Usando datos de ejemplo para generar gráficos.")
         df = pd.DataFrame({
             "rating": [7.5, 8.2, 6.9, 7.8, 9.0],
             "genre": [["Action","Drama"], ["Comedy"], ["Drama"], ["Action","Thriller"], ["Comedy","Romance"]]
@@ -49,7 +49,7 @@ def generate_visualizations():
 
     plt.savefig(os.path.join(OUTPUT_DIR, 'rating_distribution.png'))
     plt.close()
-    print("✅ Gráfico 1 guardado: rating_distribution.png")
+    print("Gráfico 1 guardado: rating_distribution.png")
 
     # ------------------------------
     # Gráfico 2: Conteo de Películas por Género
@@ -68,7 +68,7 @@ def generate_visualizations():
 
     plt.savefig(os.path.join(OUTPUT_DIR, 'genre_count.png'))
     plt.close()
-    print("✅ Gráfico 2 guardado: genre_count.png")
+    print("Gráfico 2 guardado: genre_count.png")
 
 if __name__ == "__main__":
     generate_visualizations()
