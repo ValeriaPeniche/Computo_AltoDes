@@ -13,6 +13,14 @@
 #### Septiembre 2025
 - **03/09/2025**: Tarea #993 - Presentación herramienta HPC
 - **18/09/2025**: Tarea #997 - Cluster Galera con MariaDB
+#### Octubre 2025
+- **15/10/2025**: Tarea #991 - AWS Academy Lab 2.1: Exploring AWS CloudShell and IDE
+- **15/10/2025**: Tarea #991 - AWS Academy Lab 3.1: Working with Amazon S3
+- **19/10/2025**: Tarea #991 - AWS Academy Lab 5.1: Working with DynamoDB
+- **19/10/2025**: Tarea #991 - AWS Academy Lab 6.1: Developing REST APIs with API Gateway
+- **19/10/2025**: Tarea #991 - AWS Academy Lab 7.1: Creating Lambda Functions
+- **24/10/2025**: Tarea #990 - Lectura "Phoenix Project"
+- **24/10/2025**: Tarea #989 - Elasticsearch con GitHub Pages
 
 ## Descripción
 
@@ -30,3 +38,14 @@ Presentación y demo en clase de una herramienta de High Performance Computing s
 
 ### Tarea #997 - Cluster Galera con MariaDB
 Implementación de un cluster de bases de datos MariaDB utilizando Galera Cluster para alta disponibilidad y replicación síncrona multi-maestro en entorno Linux. La configuración incluye la instalación, configuración y verificación de la replicación entre nodos del cluster.
+
+### Tarea #991 - AWS Academy Cloud Developing
+Curso completo de desarrollo en la nube con AWS que incluye 5 laboratorios prácticos sobre CloudShell, S3, DynamoDB, API Gateway y Lambda Functions.
+
+### Tarea #990 - Phoenix Project
+Lectura y análisis del libro "The Phoenix Project" sobre DevOps, gestión de TI y transformación organizacional, aplicando principios de mejora continua.
+
+### Tarea #989 - Elasticsearch con GitHub Pages
+Implementación de un sistema completo que carga datos de películas en Elasticsearch, genera visualizaciones automáticas con Python y las despliega en GitHub Pages usando GitHub Actions.
+
+*Bitácora actualizada el 24 de octubre de 2025*
