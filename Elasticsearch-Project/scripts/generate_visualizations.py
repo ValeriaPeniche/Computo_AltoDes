@@ -10,7 +10,7 @@ import os
 import query_elasticsearch  # Importamos el script de consulta
 
 # Cambiado: Apunta a la carpeta docs/assets en la raíz del repo
-OUTPUT_DIR = '../docs/assets'
+OUTPUT_DIR = '../../docs/assets'
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def generate_visualizations():
