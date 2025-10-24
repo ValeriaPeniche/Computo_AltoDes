@@ -19,12 +19,12 @@ html_content = '''
     </header>
     
     <section>
-        <h2>📊 Análisis de Dataset de Películas</h2>
+        <h2>Análisis de Dataset de Películas</h2>
         <img src="assets/movies_visualization.png" alt="Gráficas de análisis">
     </section>
     
     <section>
-        <h3>📈 Métricas del Dataset</h3>
+        <h3>Métricas del Dataset</h3>
         <ul>
             <li><strong>8 películas</strong> analizadas</li>
             <li><strong>Rating promedio:</strong> 8.8/10</li>
