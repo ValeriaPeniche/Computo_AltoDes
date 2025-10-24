@@ -24,14 +24,16 @@ jobs:
       with:
         python-version: '3.9'
         
-    - name: Install dependencies (Elasticsearch, Pandas, Matplotlib, Seaborn)
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install elasticsearch pandas matplotlib seaborn
         
+    - name: Ensure docs/assets exists
+      run: mkdir -p docs/assets
+
     - name: Load Data to Elasticsearch and Generate Visualizations
       env:
-        # Pasa los Secrets (a configurar en Tarea 2)
         ELASTICSEARCH_CLOUD_ID: ${{ secrets.ELASTICSEARCH_CLOUD_ID }}
         ELASTICSEARCH_USERNAME: ${{ secrets.ELASTICSEARCH_USERNAME }}
         ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
@@ -39,11 +41,11 @@ jobs:
         cd Elasticsearch-Project
         
         # 1. Cargar el dataset en Elasticsearch Cloud
-        echo "--> Ejecutando elasticsearch_loader.py (Carga de datos)"
+        echo "--> Ejecutando elasticsearch_loader.py"
         python scripts/elasticsearch_loader.py
         
-        # 2. Consultar los datos de ES y generar los gráficos PNG
-        echo "--> Ejecutando generate_visualizations.py (Generación de gráficos)"
+        # 2. Consultar los datos de ES y generar gráficos PNG
+        echo "--> Ejecutando generate_visualizations.py"
         python scripts/generate_visualizations.py
         
     - name: Setup Pages
@@ -53,11 +55,9 @@ jobs:
       run: echo > docs/.nojekyll
     
     - name: Upload Docs Artifact
-      # Versión v4 corrige la advertencia de deprecación
-      uses: actions/upload-pages-artifact@v3 
+      uses: actions/upload-pages-artifact@v3
       with:
-        # Indicamos explícitamente la carpeta correcta.
-        path: 'Elasticsearch-Project/docs'
+        path: 'docs'
         
     - name: Deploy to GitHub Pages
       id: deployment
