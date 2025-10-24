@@ -50,7 +50,7 @@ jobs:
       uses: actions/configure-pages@v3
 
     - name: Disable Jekyll for GitHub Pages
-      run: echo > Elasticsearch-Project/docs/.nojekyll
+      run: echo > docs/.nojekyll
     
     - name: Upload Docs Artifact
       # Versión v4 corrige la advertencia de deprecación
