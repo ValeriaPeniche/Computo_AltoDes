@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
-Script para consultar datos de Elasticsearch y prepararlos para visualización.
+Script para consultar datos de Elasticsearch y devolverlos como Pandas DataFrame.
 """
 
 import json
 import pandas as pd
 from elasticsearch import Elasticsearch
 import os
+
+INDEX_NAME = "movies-tarea989"
+DATA_PATH = '../data/movies.json'
 
 def get_elasticsearch_data():
     """Obtener datos de Elasticsearch si está disponible. Usa fallback local si falla."""
@@ -21,20 +24,20 @@ def get_elasticsearch_data():
              # Conexión en entorno de GitHub Actions
             es = Elasticsearch(
                 cloud_id=cloud_id,
-                http_auth=(username, password)
+                http_auth=(username, password),
+                request_timeout=30
             )
         else:
             # Conexión local
             es = Elasticsearch(['http://localhost:9200'])
             
         if es.ping():
-            # Consultar todos los documentos (máx 100 hits para evitar errores de tamaño)
+            # Consultar documentos (limitado a 100 para evitar problemas de paginación)
             result = es.search(
-                index="movies-tarea989", 
+                index=INDEX_NAME, 
                 body={"query": {"match_all": {}}, "size": 100}
             )
             
-            # Convertir a DataFrame
             hits = result['hits']['hits']
             movies = [hit['_source'] for hit in hits]
             print(f"✅ Datos obtenidos de Elasticsearch: {len(movies)} documentos.")
@@ -45,7 +48,8 @@ def get_elasticsearch_data():
     
     # 2. Fallback: datos locales
     try:
-        with open('data/movies.json', 'r', encoding='utf-8') as f:
+        # Carga del JSON local
+        with open(DATA_PATH, 'r', encoding='utf-8') as f:
             movies = json.load(f)
         print(f"⚠️ Datos locales cargados: {len(movies)} documentos.")
         return pd.DataFrame(movies)
