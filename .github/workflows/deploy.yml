@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read # Cambiado a read por seguridad (solo necesitamos leer)
+  contents: read
   pages: write
   id-token: write
 
@@ -27,12 +27,11 @@ jobs:
     - name: Install dependencies (Elasticsearch, Pandas, Matplotlib, Seaborn)
       run: |
         python -m pip install --upgrade pip
-        # Instalar la librería esencial para Elasticsearch y Seaborn para mejores gráficos
         pip install elasticsearch pandas matplotlib seaborn
         
     - name: Load Data to Elasticsearch and Generate Visualizations
       env:
-        # Variables de entorno requeridas por los scripts Python para conectar a ES Cloud
+        # Pasa los Secrets (a configurar en Tarea 2)
         ELASTICSEARCH_CLOUD_ID: ${{ secrets.ELASTICSEARCH_CLOUD_ID }}
         ELASTICSEARCH_USERNAME: ${{ secrets.ELASTICSEARCH_USERNAME }}
         ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
@@ -50,13 +49,13 @@ jobs:
     - name: Setup Pages
       uses: actions/configure-pages@v3
       
-    - name: Upload Docs Artifact
-      uses: actions/upload-pages-artifact@v2
+    - name: Upload Docs Artifact (Ruta y Versión Corregidas)
+      # Versión v4 corrige la advertencia de deprecación
+      uses: actions/upload-pages-artifact@v3 
       with:
-        # Ruta corregida para el artefacto: usa la ruta relativa del runner
+        # **CORRECCIÓN DE RUTA:** Indicamos explícitamente la carpeta correcta.
         path: './Elasticsearch-Project/docs'
         
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v2
-
