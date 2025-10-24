@@ -10,7 +10,7 @@ import os
 import query_elasticsearch # Importamos el script de consulta
 
 # La ruta de salida debe ser relativa a la ubicación del script (scripts/)
-OUTPUT_DIR = '../docs/assets' 
+OUTPUT_DIR = './docs/assets' 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def generate_visualizations():
