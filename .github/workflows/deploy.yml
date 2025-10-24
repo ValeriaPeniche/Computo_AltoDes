@@ -56,7 +56,7 @@ jobs:
       # Versión v4 corrige la advertencia de deprecación
       uses: actions/upload-pages-artifact@v3 
       with:
-        # **CORRECCIÓN DE RUTA:** Indicamos explícitamente la carpeta correcta.
+        # Indicamos explícitamente la carpeta correcta.
         path: 'Elasticsearch-Project/docs'
         
     - name: Deploy to GitHub Pages
