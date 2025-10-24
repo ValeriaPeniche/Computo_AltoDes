@@ -3,73 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarea #989 - Elasticsearch con GitHub Pages</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        header {
-            background: #f4f4f4;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        section {
-            margin: 20px 0;
-            padding: 15px;
-            border-left: 4px solid #007acc;
-            background: #f9f9f9;
-        }
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #666;
-        }
-    </style>
+    <title>Dashboard Elasticsearch & GitHub Pages (Tarea #989)</title>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
     <header>
-        <h1>🎬 Tarea #989 Completada</h1>
-        <h2>Elasticsearch con GitHub Pages</h2>
+        <h1>Tarea #989</h1>
+        <p>Visualización de Datos de Películas Obtenidos de Elasticsearch Cloud</p>
     </header>
-
-    <section>
-        <h3>✅ Proyecto Entregado</h3>
-        <p><strong>Dataset:</strong> 8 películas clásicas cargadas en Elasticsearch</p>
-        <p><strong>Tecnologías:</strong> Python, Elasticsearch, Pandas, Matplotlib</p>
-        <p><strong>Automatización:</strong> GitHub Actions para generación de visualizaciones</p>
-    </section>
-
-    <section>
-        <h3>📊 Visualizaciones Generadas</h3>
-        <p>Las visualizaciones incluyen:</p>
-        <ul>
-            <li>Distribución de películas por año</li>
-            <li>Histograma de ratings</li>
-            <li>Relación duración vs rating</li>
-            <li>Géneros más comunes</li>
-        </ul>
-    </section>
-
-    <section>
-        <h3>🔗 Archivos del Proyecto</h3>
-        <p>Todos los scripts y datos están disponibles en el repositorio:</p>
-        <ul>
-            <li><code>Elasticsearch-Movies/scripts/elasticsearch_loader.py</code></li>
-            <li><code>Elasticsearch-Movies/scripts/generate_visualizations.py</code></li>
-            <li><code>Elasticsearch-Movies/data/movies.json</code></li>
-        </ul>
-    </section>
-
+    
+    <main>
+        <h2>📊 Análisis de Dataset</h2>
+        <p class="description">Estas gráficas se generan automáticamente en cada push a 'main' mediante GitHub Actions. Los datos son consultados en tiempo real desde nuestro índice de <strong>Elasticsearch Cloud</strong>.</p>
+        
+        <section class="chart-container">
+            <h3>1. Distribución de Ratings (IMDb)</h3>
+            <img src="assets/rating_distribution.png" alt="Gráfico de distribución de ratings de películas" class="chart">
+        </section>
+        
+        <section class="chart-container">
+            <h3>2. Conteo de Películas por Género</h3>
+            <img src="assets/genre_count.png" alt="Gráfico de conteo por género de películas" class="chart">
+        </section>
+    </main>
+    
     <footer>
-        <p><strong>Estudiante:</strong> Valeria Peniche</p>
-        <p><strong>Fecha:</strong> Octubre 2025</p>
-        <p><strong>Asignatura:</strong> Cómputo de Alto Desempeño</p>
+        <p>Desplegado usando Python (Pandas/Matplotlib), Elasticsearch y GitHub Actions.</p>
     </footer>
 </body>
 </html>
