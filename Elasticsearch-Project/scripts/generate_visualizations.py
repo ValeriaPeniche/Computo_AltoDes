@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import os
-import query_elasticsearch # Importamos el script de consulta
+import query_elasticsearch  # Importamos el script de consulta
 
-# La ruta de salida debe ser relativa a la ubicación del script (scripts/)
-OUTPUT_DIR = './docs/assets' 
+# Cambiado: Apunta a la carpeta docs/assets en la raíz del repo
+OUTPUT_DIR = '../docs/assets'
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def generate_visualizations():
@@ -43,12 +43,9 @@ def generate_visualizations():
     # Gráfico 2: Conteo de Películas por Género
     # ----------------------------------------------------
     plt.figure(figsize=(12, 7))
-    
-    # Desanidar los géneros para contar correctamente (ya que 'genre' es una lista)
     all_genres = df['genre'].explode().str.strip() 
     genre_counts = all_genres.value_counts().head(8)
     
-    # Usamos un gráfico de barras
     sns.barplot(x=genre_counts.index, y=genre_counts.values, palette='viridis')
     plt.title('Top 8 Géneros por Conteo de Películas', fontsize=16)
     plt.xlabel('Género', fontsize=12)
