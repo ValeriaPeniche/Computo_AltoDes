@@ -39,15 +39,12 @@ jobs:
         ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
       run: |
         cd Elasticsearch-Project
-        
-        # 1. Cargar el dataset en Elasticsearch Cloud
-        echo "--> Ejecutando elasticsearch_loader.py"
         python scripts/elasticsearch_loader.py
-        
-        # 2. Consultar los datos de ES y generar gráficos PNG
-        echo "--> Ejecutando generate_visualizations.py"
         python scripts/generate_visualizations.py
-        
+        cd ../
+        echo "Contenido de docs después de generar gráficos:"
+        ls -R docs
+
     - name: Setup Pages
       uses: actions/configure-pages@v3
 
