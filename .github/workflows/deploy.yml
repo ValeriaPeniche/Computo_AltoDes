@@ -16,46 +16,44 @@ jobs:
     environment: github-pages
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install elasticsearch pandas matplotlib seaborn
-        
-    - name: Ensure docs/assets exists
-      run: mkdir -p docs/assets
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Load Data to Elasticsearch and Generate Visualizations
-      env:
-        ELASTICSEARCH_CLOUD_ID: ${{ secrets.ELASTICSEARCH_CLOUD_ID }}
-        ELASTICSEARCH_USERNAME: ${{ secrets.ELASTICSEARCH_USERNAME }}
-        ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
-      run: |
-        cd Elasticsearch-Project
-        python scripts/elasticsearch_loader.py
-        python scripts/generate_visualizations.py
-        cd ../
-        echo "Contenido de docs después de generar gráficos:"
-        ls -R docs
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
 
-    - name: Setup Pages
-      uses: actions/configure-pages@v3
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install elasticsearch pandas matplotlib seaborn
 
-    - name: Disable Jekyll for GitHub Pages
-      run: echo > docs/.nojekyll
-    
-    - name: Upload Docs Artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: 'docs'
-        
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v2
+      - name: Ensure docs/assets exists
+        run: mkdir -p docs/assets
+
+      - name: Load Data to Elasticsearch and Generate Visualizations
+        env:
+          ELASTICSEARCH_CLOUD_ID: ${{ secrets.ELASTICSEARCH_CLOUD_ID }}
+          ELASTICSEARCH_USERNAME: ${{ secrets.ELASTICSEARCH_USERNAME }}
+          ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
+        run: |
+          python Elasticsearch-Project/scripts/elasticsearch_loader.py
+          python Elasticsearch-Project/scripts/generate_visualizations.py
+          echo "Contenido de docs después de generar gráficos:"
+          ls -R docs
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Disable Jekyll for GitHub Pages
+        run: echo > docs/.nojekyll
+
+      - name: Upload Docs Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'docs'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
