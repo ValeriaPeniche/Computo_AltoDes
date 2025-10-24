@@ -1,51 +1,56 @@
 #!/usr/bin/env python3
 """
-Script que carga datos a Elasticsearch Cloud.
+Script que conecta y carga el dataset de películas a Elasticsearch Cloud.
 """
 
 import json
 import os
 from elasticsearch import Elasticsearch
-import pandas as pd
 
-# Nota: El mapping debe reflejar que 'genre' es una lista, por lo que usaremos 'keyword'
-# para que se pueda filtrar, y 'actors' es un texto/lista.
+# La ruta del archivo JSON debe ser relativa a donde se ejecuta el script (Elasticsearch-Project/)
+DATA_PATH = '../data/movies.json'
+INDEX_NAME = "movies-tarea989"
 
 def connect_elasticsearch():
     """Conectar a Elasticsearch Cloud o local."""
     try:
-        # 1. Variables de entorno (usadas por GitHub Actions)
+        # Usamos variables de entorno (Secrets de GitHub)
         cloud_id = os.getenv('ELASTICSEARCH_CLOUD_ID')
         username = os.getenv('ELASTICSEARCH_USERNAME') 
         password = os.getenv('ELASTICSEARCH_PASSWORD')
         
         if cloud_id and username and password:
+            # Conexión a Elasticsearch Cloud (en GitHub Actions)
             es = Elasticsearch(
                 cloud_id=cloud_id,
-                http_auth=(username, password)
+                http_auth=(username, password),
+                request_timeout=30 # Aumentar timeout por si la conexión es lenta
             )
         else:
-            # 2. Fallback para desarrollo local (si no hay variables)
-            print("⚠️ Usando conexión local (http://localhost:9200)")
+            # Fallback para desarrollo local (con Docker o ES local)
+            print("⚠️ WARNING: Usando conexión local (http://localhost:9200) o credenciales faltantes.")
             es = Elasticsearch(['http://localhost:9200'])
             
         if es.ping():
             print("✅ Conectado a Elasticsearch")
             return es
         else:
-            print("❌ Error: No hay conexión a Elasticsearch")
+            print("❌ ERROR: Elasticsearch no responde (ping fallido)")
             return None
             
     except Exception as e:
-        print(f"❌ Error conectando a Elasticsearch: {e}")
+        print(f"❌ ERROR conectando a Elasticsearch: {e}")
         return None
 
 def load_sample_data():
     """Cargar datos de muestra desde archivo JSON"""
-    # Asegúrate de que el path sea correcto desde la raíz del proyecto
-    file_path = 'data/movies.json' 
-    with open(file_path, 'r', encoding='utf-8') as f:
-        return json.load(f)
+    try:
+        # La ruta es relativa al directorio 'scripts'
+        with open(DATA_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"❌ ERROR: Archivo de datos no encontrado en {DATA_PATH}")
+        return []
 
 def main():
     """Función principal que carga los datos."""
@@ -54,17 +59,15 @@ def main():
     es = connect_elasticsearch()
     
     if es:
-        index_name = "movies-tarea989"
-        
-        # Eliminar y crear índice
-        if es.indices.exists(index=index_name):
-            es.indices.delete(index=index_name)
+        # 1. Crear/recrear índice con mapping
+        if es.indices.exists(index=INDEX_NAME):
+            es.indices.delete(index=INDEX_NAME)
             
         mapping = {
             "mappings": {
                 "properties": {
                     "title": {"type": "text"},
-                    "genre": {"type": "keyword"}, # Usamos keyword para listas de texto
+                    "genre": {"type": "keyword"}, # Para arrays y conteo
                     "year": {"type": "integer"},
                     "duration": {"type": "integer"},
                     "rating": {"type": "float"},
@@ -73,19 +76,24 @@ def main():
                 }
             }
         }
-        es.indices.create(index=index_name, body=mapping)
+        es.indices.create(index=INDEX_NAME, body=mapping)
+        print(f"✅ Índice '{INDEX_NAME}' creado.")
         
-        # Cargar datos
+        # 2. Cargar datos
         movies = load_sample_data()
+        if not movies:
+            return
+
         for i, movie in enumerate(movies):
-            # Cuidado: El ID debe ser una cadena para ES
-            es.index(index=index_name, id=str(i+1), document=movie)
+            # Usar 'document' en lugar de 'body' para versiones recientes
+            es.index(index=INDEX_NAME, id=str(i+1), document=movie)
             
-        es.indices.refresh(index=index_name) # Asegura que los datos sean visibles de inmediato
-        print(f"✅ {len(movies)} películas cargadas en Elasticsearch")
+        es.indices.refresh(index=INDEX_NAME) 
+        print(f"✅ {len(movies)} películas cargadas y refresco de índice completado.")
         
     else:
-        print("🛑 Detenido. No se pudo conectar a Elasticsearch. Revisa tus Secrets o conexión local.")
+        print("🛑 Proceso detenido. No se pudo conectar a Elasticsearch.")
 
 if __name__ == "__main__":
     main()
+
