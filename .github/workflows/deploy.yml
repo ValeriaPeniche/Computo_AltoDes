@@ -1,4 +1,4 @@
-name: Generate Visualizations and Deploy to GitHub Pages
+name: Deploy Elasticsearch Visualization to GitHub Pages
 
 on:
   push:
@@ -6,17 +6,15 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read # Cambiado a read por seguridad (solo necesitamos leer)
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    environment: github-pages
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -26,36 +24,39 @@ jobs:
       with:
         python-version: '3.9'
         
-    - name: Install dependencies
+    - name: Install dependencies (Elasticsearch, Pandas, Matplotlib, Seaborn)
       run: |
         python -m pip install --upgrade pip
-        pip install pandas matplotlib numpy
+        # Instalar la librería esencial para Elasticsearch y Seaborn para mejores gráficos
+        pip install elasticsearch pandas matplotlib seaborn
         
-    - name: Generate movie visualizations
+    - name: Load Data to Elasticsearch and Generate Visualizations
+      env:
+        # Variables de entorno requeridas por los scripts Python para conectar a ES Cloud
+        ELASTICSEARCH_CLOUD_ID: ${{ secrets.ELASTICSEARCH_CLOUD_ID }}
+        ELASTICSEARCH_USERNAME: ${{ secrets.ELASTICSEARCH_USERNAME }}
+        ELASTICSEARCH_PASSWORD: ${{ secrets.ELASTICSEARCH_PASSWORD }}
       run: |
         cd Elasticsearch-Project
+        
+        # 1. Cargar el dataset en Elasticsearch Cloud
+        echo "--> Ejecutando elasticsearch_loader.py (Carga de datos)"
+        python scripts/elasticsearch_loader.py
+        
+        # 2. Consultar los datos de ES y generar los gráficos PNG
+        echo "--> Ejecutando generate_visualizations.py (Generación de gráficos)"
         python scripts/generate_visualizations.py
         
-    - name: Create HTML page with visualizations
-      run: |
-        cd Elasticsearch-Project
-        python scripts/create_html_report.py
-        
     - name: Setup Pages
-      uses: actions/configure-pages@v4
+      uses: actions/configure-pages@v3
       
-    - name: Upload to GitHub Pages
-      uses: actions/upload-pages-artifact@v3
+    - name: Upload Docs Artifact
+      uses: actions/upload-pages-artifact@v2
       with:
-        path: 'Elasticsearch-Project/docs'
+        # Ruta corregida para el artefacto: usa la ruta relativa del runner
+        path: './Elasticsearch-Project/docs'
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
